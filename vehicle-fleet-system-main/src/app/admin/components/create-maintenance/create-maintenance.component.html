@@ -1,0 +1,63 @@
+<div class="container">
+  <p class="title">Crear Registro de Mantenimiento</p>
+  <form [formGroup]="maintenanceForm" class="form">
+    <div class="form-half">
+      <mat-form-field class="field">
+        <mat-label class="label">Vehículo</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          [matAutocomplete]="auto"
+          formControlName="vehicle"
+          placeholder="Ingrese el vehículo"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (vehicle of filteredVehicles | async; track vehicle.ID_Vehiculo) {
+            <mat-option [value]="vehicleInfoHelper.getModel(vehicle)" (click)="selectVehicle(vehicle)">
+              {{ vehicleInfoHelper.getModel(vehicle) }}
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Kilometraje</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          class="input"
+          formControlName="kms"
+          placeholder="Ingrese el kilometraje del vehículo"
+        >
+      </mat-form-field>
+    </div>
+    <div class="form-half">
+      <mat-form-field class="field">
+        <mat-label class="label">Tipo de Mantenimiento</mat-label>
+        <mat-select formControlName="type">
+          @for (type of maintenanceType; track type) {
+            <mat-option [value]="type">{{ type }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label>Escoge la fecha</mat-label>
+        <input formControlName="date" matInput [max]="maxDate" [matDatepicker]="picker" required>
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+  <mat-error class="error" *ngIf="error && incompleteForm">
+    Por favor llenar los campos requeridos
+  </mat-error>
+  <mat-error class="error" *ngIf="error && !validKms">
+    El kilometraje del Mantenimiento no puede ser mayor al kilometraje del vehículo seleccionado
+  </mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

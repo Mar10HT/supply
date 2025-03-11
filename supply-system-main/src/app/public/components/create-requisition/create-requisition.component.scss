@@ -1,0 +1,39 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+
+  .btn {
+    width: 35rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    margin: 2rem;
+    font-weight: bold;
+    color: $dark-blue;
+  }
+
+  .error {
+    font-size: 2rem;
+  }
+}
+
+.created-label {
+  font-size: 3rem;
+  color: $dark-blue;
+}
+
+.form {
+  @include flex-center;
+  margin: 2rem 0;
+  gap: 2rem;
+
+  .field {
+    width: 25rem;
+  }
+
+  .btn {
+    width: 25rem;
+  }
+}

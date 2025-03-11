@@ -1,0 +1,82 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  gap: 2rem;
+  color: $dark-blue;
+
+  .error {
+    font-size: 1.5rem;
+    color: $red;
+  }
+
+  .buttons, .driver-form {
+    @include flex-center;
+    width: 50%;
+    gap: 2rem;
+  }
+
+  .driver-form {
+    margin-top: 5rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+.field {
+  width: 100%;
+  height: 8rem;
+
+  .label, .input {
+    font-size: 2rem;
+  }
+}
+
+.buttons-log {
+  @include flex-center;
+  width: 90%;
+  justify-content: flex-start;
+  gap: 3rem;
+  margin-top: 5rem;
+
+  .btn {
+    width: 15%;
+  }
+}
+
+.table-container {
+  width: 90%;
+
+  .table-cell {
+    text-align: center;
+    font-size: 2rem;
+    color: $dark-blue;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
+  .gas {
+    color: $warning;
+  }
+
+  .uil {
+    cursor: pointer;
+    font-size: 3rem;
+  }
+}
+
+tr:nth-child(even) {
+  background-color: $light-gray;
+}
+
+.uil-trash-alt {
+  color: $red;
+}

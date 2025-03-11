@@ -1,0 +1,83 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+  gap: 2rem;
+  padding: 4rem;
+  border-radius: 2rem;
+  color: $dark-blue;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem;
+
+    .row {
+      display: flex;
+      gap: 2rem;
+      width: 100%;
+    }
+  }
+
+  .labels {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 3rem 0;
+    font-size: 2rem;
+  }
+
+  .buttons {
+    @include flex-center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .btn {
+      width: 25rem;
+    }
+  }
+
+  .label, .input {
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .btn {
+    @include flex-center;
+    width: 100%;
+  }
+
+
+}
+
+.money-field {
+  position: relative;
+
+  .lemps {
+    position: absolute;
+    font-size: 2rem;
+  }
+
+  .money, .label {
+    padding-left: 2rem;
+  }
+}
+
+.quantity {
+  @include flex-center;
+
+  .field {
+    width: 15rem;
+  }
+}
+
+.error {
+  font-size: 1.5rem;
+  color: $red;
+  text-align: center;
+}

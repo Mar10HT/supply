@@ -1,0 +1,53 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title">{{ disabled ? "Ver" : "Editar" }} Requisición</p>
+  <p class="text" *ngIf="!disabled">Cambia las cantidades si es necesario, al confirmar la requisición pasará a ser activa</p>
+  <div class="card-wrapper">
+    @for (req of data.requisition.productsRequisition; track req) {
+      <div class="card-container">
+        <div class="card">
+          <p class="text name">{{ req.product.name }}</p>
+          <mat-form-field class="quantity">
+            <mat-label>Cantidad</mat-label>
+            <input
+              [(ngModel)]="req.quantity"
+              [readonly]="disabled"
+              [max]="maxQuantity(req.product)"
+              matInput
+              type="number"
+            >
+          </mat-form-field>
+        </div>
+        <p class="max" *ngIf="!disabled">Disponible: {{ maxQuantity(req.product) }}</p>
+        <p class="max" *ngIf="req.product.batched"> Número correlativo: {{ req.product.batchedNumber }} </p>
+        <div *ngIf="req.product.batched">
+          <mat-form-field class="range">
+            <mat-label>Rango Inicial</mat-label>
+            <input
+              [(ngModel)]="findRange(req.id).startRange"
+              [min]="req.product.batchedNumber"
+              matInput
+              type="number"
+            >
+          </mat-form-field>
+          <mat-form-field class="range">
+            <mat-label>Rango Inicial</mat-label>
+            <input
+              [(ngModel)]="findRange(req.id).endRange"
+              [min]="findRange(req.id).startRange + 1"
+              matInput
+              type="number"
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    }
+  </div>
+  <mat-error class="error" *ngIf="error">No puedes asignar más productos de los disponibles en inventario*</mat-error>
+  <mat-error class="error" *ngIf="unvalidRanges">Rangos inválidos*</mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" *ngIf="!disabled" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

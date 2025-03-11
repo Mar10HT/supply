@@ -1,0 +1,113 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+<div class="container" *ngIf="!loading">
+  <section class="panel">
+    <div class="search-bar-wrapper">
+      <i class="uil uil-search-alt"></i>
+      <input
+        [(ngModel)]="searchInput"
+        class="search-bar"
+        (input)="onSearch(searchInput)"
+        type="text"
+        placeholder="Buscar"
+      />
+    </div>
+    <div class="available">
+      <p class="panel-title">En el último mes se han efectuado</p>
+      <p class="panel-label">{{ monthlyRequisitions }} Requisicion{{ monthlyRequisitions > 1 ? "es" : '' }}</p>
+    </div>
+    <div class="available">
+      <p class="panel-title">Requisiciones Pendientes por Proveeduría</p>
+      <p class="panel-label">{{ pending }} Requisicion{{ pending > 1 ? "es" : '' }}</p>
+    </div>
+    <div class="buttons">
+      <app-primary-button class="button" (btnClick)="generatePDF()">IMPRIMIR LISTADO</app-primary-button>
+      <mat-form-field class="button">
+        <mat-label>Filtro</mat-label>
+        <mat-select
+          [(ngModel)]="selectedFilter"
+          (selectionChange)="onFilterChange($event.value)"
+        >
+          @for (filter of filterOptions; track filter) {
+            <mat-option [value]="filter">{{ filter }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+  <section class="table-container">
+    <app-no-result *ngIf="filteredRequisitions.length === 0"></app-no-result>
+    <table mat-table [dataSource]="filteredRequisitions | paginate: { itemsPerPage: 7, currentPage: page }" class="table" *ngIf="filteredRequisitions.length > 0">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">ID</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ element.id }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Fecha</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ getDate(element.systemDate) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Estado</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ element.state.state }}
+        </td>
+      </ng-container>
+
+      <ng-cokntainer matColumnDef="employee">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Empleado</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ getName(element.employeeName) }}
+        </td>
+      </ng-cokntainer>
+
+      <ng-container matColumnDef="boss">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Jefe</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ getName(element.bossName) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Departamento</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          {{ getDepartment(element.department) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="document">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title"><i class="uil uil-file-upload-alt"></i></th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer">
+          <i class="uil uil-file-upload-alt" *ngIf="element.documentUrl" (click)="goToUrl(element.documentUrl)"></i>
+          <i class="uil uil-plus-circle test" *ngIf="!element.documentUrl" (click)="openUploadDocumentModal(element.id)"></i>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Acciones</th>
+        <td mat-cell *matCellDef="let element" class="table-cell icons">
+          <i class="uil uil-edit"  *ngIf="canEdit(element.state.state)" (click)="openEditRequisitionModal(element)"></i>
+          <i class="uil uil-trash-alt" *ngIf="canCancel(element.state.state)" (click)="openCancelRequisitionModal(element)"></i>
+          <i class="uil uil-check-circle" *ngIf="canFinish(element.state.state)" (click)="openFinishRequisitionModal(element)"></i>
+          <i class="uil uil-eye" *ngIf="canWatch(element.state.state)" (click)="openEditRequisitionModal(element, 'watch')"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <pagination-controls
+      class="my-pagination"
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    >
+    </pagination-controls>
+  </section>
+  <app-date-filter class="date-filter" (dateRangeChanged)="filterDates($event)"></app-date-filter>
+</div>

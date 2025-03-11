@@ -1,0 +1,80 @@
+@import 'global';
+
+.card-wrapper {
+  @include flex-center-column;
+  width: 40rem;
+  height: 44rem;
+  background-color: $light-gray;
+  border-radius: 2rem;
+  border: solid 0.2rem $dark-blue;
+
+  .header {
+    margin: 2rem 2rem 0 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .img {
+    width: 10rem;
+  }
+
+  .info {
+    @include flex-center;
+    justify-content: space-between;
+    height: 30rem;
+  }
+
+  .calendar {
+    width: 60%;
+    margin-left: 2rem;
+  }
+}
+
+.log-info {
+  @include flex-center;
+  width: 100%;
+
+  .calendar {
+    width: 70%;
+    margin: 0 0 2rem 0;
+  }
+}
+
+.model {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.type {
+  font-size: 1.5rem;
+}
+
+.text-label {
+  font-size: 1.5rem;
+  width: 30%;
+  margin-right: 2rem;
+  text-align: center;
+}
+
+button.preventive-date {
+  background: $warning;
+  border-radius: 100%;
+}
+
+button.corrective-date {
+  background: $red;
+  border-radius: 100%;
+}
+
+button.log-date {
+  background: $warning;
+  border-radius: 100%;
+}
+
+button.log-week {
+  background: $blue;
+  border-radius: 100%;
+}
+

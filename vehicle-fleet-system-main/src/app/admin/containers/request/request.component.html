@@ -1,0 +1,141 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+
+<div class="container">
+  <form [formGroup]="requestForm" class="request-container">
+
+    <div class="first-column">
+      <mat-form-field class="field">
+        <mat-hint class="hint">Estado</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="status"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Hora de Retorno</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="returnTime"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Hora de Salida</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="departureTime"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Destino</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="destination"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Empleado</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="employee"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Tipo de Gira</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="type"
+        >
+      </mat-form-field>
+
+      <app-primary-button class="field" (btnClick)="openUpdateRequestModal()">EDITAR</app-primary-button>
+
+      <span class="field memo" (click)="goToLink()">
+        <i class="uil uil-file-search-alt"></i>
+        <p>Ver el memorandum</p>
+      </span>
+    </div>
+
+    <div class="second-column">
+      <mat-form-field class="field">
+        <mat-hint class="hint">Ciudad</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="city"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Conductor</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="driver"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Vehículo</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="vehicle"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Fecha</mat-hint>
+        <input
+          formControlName="date"
+          matInput
+          readonly
+          required
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Pasajeros</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="passengers"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <mat-hint class="hint">Número de memorando</mat-hint>
+        <input
+          matInput
+          readonly
+          type="text"
+          formControlName="memo"
+        >
+      </mat-form-field>
+    </div>
+
+  </form>
+  <section class="map-container">
+    <div class="map" #map></div>
+  </section>
+</div>

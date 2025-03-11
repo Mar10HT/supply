@@ -1,0 +1,10 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title">Eliminar {{ title }}</p>
+  <p class="text">Seguro que quieres eliminar el {{ title }}? <strong>Esta acción no es reversible</strong></p>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

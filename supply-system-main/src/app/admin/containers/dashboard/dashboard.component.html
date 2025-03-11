@@ -1,0 +1,46 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+
+<div class="container">
+  <div class="top">
+    <div class="months-container">
+      <canvas id="months"></canvas>
+    </div>
+    <div class="top-stats">
+      <p class="title">Salidas Totales</p>
+      <p class="currency">{{ totalRevenue | currency:'HNL':'L.':'2.2' }}</p>
+      <p>Mes de mayor consumo:</p>
+      <p><strong>{{ topEarningMonth.month }}</strong></p>
+      <p class="currency">{{ topEarningMonth.revenue | currency:'HNL':'L.':'2.2' }}</p>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="upper">
+      <div class="products-wrapper">
+        <p *ngIf="dashboardInfo.products.length <= 0">NO HAY REGISTRO</p>
+        <p *ngIf="dashboardInfo.products.length > 0">Productos más consumidos</p>
+        @for(product of dashboardInfo.products; track product){
+          <div class="product">
+            <p>{{ product.name }}</p>
+            <p>{{ product.quantity | currency:'HNL':'L.':'2.2' }}</p>
+          </div>
+        }
+      </div>
+      <div class="days-wrapper">
+        <canvas id="days"></canvas>
+      </div>
+      <div class="total-wrapper">
+        <p class="title">Salidas Totales (Cantidad)</p>
+        <p class="currency">{{ dashboardInfo.total | currency:'HNL':'L.':'2.2' }}</p>
+      </div>
+    </div>
+    <div class="lower">
+      <div class="group-wrapper">
+        <canvas id="groups"></canvas>
+      </div>
+      <div class="departments-wrapper">
+        <canvas id="depts"></canvas>
+      </div>
+    </div>
+  </div>
+  <app-date-filter class="date-filter" (dateRangeChanged)="filterDates($event)"></app-date-filter>
+</div>

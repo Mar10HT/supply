@@ -1,0 +1,152 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+
+  .panel {
+    @include flex-center;
+    position: relative;
+    justify-content: space-between;
+    height: 18rem;
+    width: 90%;
+    margin: 2rem;
+    border: 0.2rem solid $gray;
+    border-radius: 2rem;
+  }
+
+  .info-container {
+    @include flex-center;
+    width: 90%;
+    height: 48%;
+    gap: 2rem;
+  }
+
+  .btn-container {
+    @include flex-center-column;
+    gap: 0.5rem;
+    margin-right: 2rem;
+    width: 20%;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+.car-info {
+  @include flex-center;
+  justify-content: flex-start;
+  margin-left: 2rem;
+  color: $dark-blue;
+  width: 80%;
+
+  .info-wrapper {
+    @include flex-center-column;
+    width: 100%;
+  }
+
+  .info {
+    @include flex-center;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  .img {
+    height: 15rem;
+  }
+
+  .panel-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+  }
+
+  .panel-label {
+    font-size: 2rem;
+  }
+}
+
+.gas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+
+  .uil {
+    font-size: 3rem;
+    margin-left: 1rem;
+  }
+
+  .up {
+    color: $green
+  }
+
+  .down {
+    color: $red;
+  }
+}
+
+.first-row, .second-row {
+  @include flex-center;
+  justify-content: flex-start;
+  gap: 5rem;
+  font-size: 2rem;
+}
+
+.first-row {
+  height: 20%;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.second-row {
+  height: 80%;
+  width: 100%;
+  gap: 2rem;
+  position: relative;
+}
+
+.panel-label {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.display {
+  height: 100%;
+  width: 25%;
+  display: flex;
+  gap: 3rem;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 2rem;
+}
+
+.chart-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 30rem;
+
+  .chart {
+    height: 100%;
+  }
+}
+
+.map, .gas-container {
+  width: 50%;
+  height: 100%;
+  border-radius: 2rem;
+}
+
+.small-loading {
+  width: 50%;
+  height: 100%;
+}

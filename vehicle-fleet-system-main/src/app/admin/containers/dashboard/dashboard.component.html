@@ -1,0 +1,98 @@
+<app-loading *ngIf="loading" class="loading"></app-loading>
+<div class="container" *ngIf="!loading && emptyInfo">
+  <app-no-result></app-no-result>
+</div>
+<div class="container" *ngIf="!loading && !emptyInfo">
+  <section class="panel">
+    <span class="item">
+      <div>
+        <p>Gasolina</p>
+        <p class="panel-label">{{ currentMonthInfo.gas.toFixed(2) }} Galon{{ currentMonthInfo.gas > 1 ? 'es': ''}}</p>
+      </div>
+      <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.gas.toFixed(2)" *ngIf="currentMonthBigger('gas')"></i>
+      <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.gas.toFixed(2)" *ngIf="!currentMonthBigger('gas')"></i>
+    </span>
+    <span class="item">
+      <div>
+        <p>Giras</p>
+        <p class="panel-label">{{ currentMonthInfo.trips }}</p>
+      </div>
+      <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.trips" *ngIf="currentMonthBigger('trip')"></i>
+      <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.trips" *ngIf="!currentMonthBigger('trip')"></i>
+    </span>
+    <span class="item">
+      <div>
+        <p>Costo</p>
+        <p class="panel-label">L.{{ currentMonthInfo.cost }}</p>
+      </div>
+      <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: L.' + lastMonthInfo.cost" *ngIf="currentMonthBigger('cost')"></i>
+      <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: L.' + lastMonthInfo.cost" *ngIf="!currentMonthBigger('cost')"></i>
+    </span>
+    <span class="item">
+      <div>
+        <p>Solicitudes</p>
+        <p class="panel-label">{{ currentMonthInfo.requests }}</p>
+      </div>
+      <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.requests" *ngIf="currentMonthBigger('request')"></i>
+      <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.requests" *ngIf="!currentMonthBigger('request')"></i>
+    </span>
+    <span class="item">
+      <div>
+        <p>Kilometros Recorridos</p>
+        <p class="panel-label">{{ currentMonthInfo.kms }} Kilometros</p>
+      </div>
+      <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.kms + ' Km'" *ngIf="currentMonthBigger('kms')"></i>
+      <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonthInfo.kms + ' Km'" *ngIf="!currentMonthBigger('kms')"></i>
+    </span>
+  </section>
+  <section class="info-container">
+    <div class="chart-container">
+      <canvas #bar baseChart class="chart"
+        [datasets]="kmsDatasets"
+        [options]="barOptions"
+        [labels]="kmsLabels"
+        type="bar"
+      >
+      </canvas>
+    </div>
+    <div class="pie-container">
+      <canvas #pie baseChart class="chart"
+        [datasets]="cityDatasets"
+        [options]="pieOptions"
+        [labels]="cityLabels"
+        type="pie"
+      >
+      </canvas>
+    </div>
+    <div class="chart-container">
+      <div class="line-graph">
+        <canvas #line baseChart class="chart"
+          [datasets]="costDatasets"
+          [options]="lineOptions"
+          [labels]="costLabels"
+          type="line"
+        >
+        </canvas>
+      </div>
+      <div class="car" (click)="goToVehicle()">
+        <img class="img" [src]="vehicle.Imagen_URL" alt="Car">
+        <span class="labels">
+          <p class="title">Vehículo más usado del mes</p>
+          <p>{{ vehicleInfoHelper.getModel(vehicle) }}</p>
+        </span>
+      </div>
+    </div>
+  </section>
+  <div class="report" (click)="generateReport()">
+    <p>Descargar Reporte</p>
+    <i class="uil uil-file-download-alt"></i>
+  </div>
+</div>
+<app-date-filter
+  *ngIf="!loading"
+  (dateRangeChanged)="filterDates($event)"
+  [startDate]="start"
+  [endDate]="end"
+  class="date-filter"
+>
+</app-date-filter>

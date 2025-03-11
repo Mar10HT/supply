@@ -1,0 +1,8 @@
+<div class="container">
+  <p class="title">Eliminar Vehículo</p>
+  <p class="label">¿Estás seguro que deseas eliminar el vehículo <strong>{{ data.model }}</strong> con placa <strong>{{ data.plate }}</strong>?</p>
+  <div class="buttons">
+    <app-primary-button class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="deleteVehicle()">Eliminar</app-primary-button>
+  </div>
+</div>

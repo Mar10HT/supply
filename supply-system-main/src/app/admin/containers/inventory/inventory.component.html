@@ -1,0 +1,102 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+<div class="container" *ngIf="!loading">
+  <section class="panel">
+    <div class="search-bar-wrapper">
+      <i class="uil uil-search-alt"></i>
+      <input
+        [(ngModel)]="searchInput"
+        class="search-bar"
+        (input)="onSearch(searchInput)"
+        type="text"
+        placeholder="Buscar"
+      />
+    </div>
+    <div class="available">
+      <span class="panel-labels">
+        <p class="panel-title">Próximo a caducar</p>
+        <p class="panel-label">{{ dueProduct.name }}</p>
+      </span>
+      <img class="panel-image" [src]="dueProduct.imageUrl" alt="Producto próximo a caducar" />
+    </div>
+    <div class="available">
+      <span class="panel-labels">
+        <p class="panel-title">Producto con menos cantidad</p>
+        <p class="panel-label">{{ minProduct.name }} - {{ minAmount }} {{ minProduct.unit }}</p>
+      </span>
+      <img class="panel-image" [src]="minProduct.imageUrl" alt="Producto próximo a caducar" />
+    </div>
+    <div class="buttons">
+      <app-primary-button class="button" (btnClick)="openCreateUpdateProductModal()">
+        CREAR PRODUCTO
+      </app-primary-button>
+      <app-primary-button class="button" (btnClick)="generatePDF()">IMPRIMIR LISTADO</app-primary-button>
+    </div>
+  </section>
+  <section class="table-container">
+    <app-no-result *ngIf="filteredProducts.length === 0"></app-no-result>
+    <table mat-table [dataSource]="filteredProducts | paginate: { itemsPerPage: 7, currentPage: page }" class="table" *ngIf="filteredProducts.length > 0">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Producto</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ element.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="group">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Categoría</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ element.group.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Cantidad</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ getAmount(element) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Unidad</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ element.unit }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="closestDueDate">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Fecha de Vencimiento</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ getDueDate(element) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Precio</th>
+        <td mat-cell *matCellDef="let element" class="table-cell pointer" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          {{ getPrice(element) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="table-cell title">Acciones</th>
+        <td mat-cell *matCellDef="let element" class="table-cell icons" [ngClass]="hasWarning(element) ? 'warning' : ''">
+          <i class="uil uil-plus-circle" (click)="goToInput()"></i>
+          <i class="uil uil-edit" (click)="openCreateUpdateProductModal('edit', element)"></i>
+          <i class="uil uil-minus-circle" *ngIf="getAmount(element) > 0" (click)="openRemoveProductsModal(element)"></i>
+          <i class="uil uil-trash-alt" *ngIf="getAmount(element) === 0" (click)="openDeleteProductModal(element.id)"></i>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <pagination-controls
+      class="my-pagination"
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    >
+    </pagination-controls>
+  </section>
+</div>

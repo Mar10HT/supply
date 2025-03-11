@@ -1,0 +1,81 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title" *ngIf="isCreate">Crear Producto</p>
+  <p class="title" *ngIf="!isCreate">Editar Producto</p>
+
+  <form [formGroup]="productForm" class="form">
+    <div class="flex-center">
+      <mat-form-field class="field">
+        <mat-label class="label">Producto</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="name"
+          placeholder="Ingrese el nombre del producto"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Grupo</mat-label>
+        <mat-select formControlName="group">
+          @for (group of groups; track group) {
+            <mat-option [value]="group.name">{{ group.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-center">
+      <mat-form-field class="field">
+        <mat-label class="label">Unidad</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="unit"
+          placeholder="Ingrese la unidad del producto"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Cantidad mínima de stock</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          min="1"
+          type="number"
+          formControlName="minimum"
+          placeholder="Ingrese el mínimo de stock para alerta"
+        >
+      </mat-form-field>
+    </div>
+    <mat-form-field class="field" *ngIf="isBatched()">
+      <mat-label class="label">Número correlativo</mat-label>
+      <input
+        matInput
+        [readonly]="!isBatched()"
+        class="input"
+        min="1"
+        type="number"
+        formControlName="batchedNumber"
+        placeholder="Ingrese el número correlativo actual"
+      >
+    </mat-form-field>
+    <div class="flex-center">
+      <div class="add" (click)="openGroupModal()">
+        <i class="uil uil-plus-circle"></i>
+        <p class="label">Agregar Grupo</p>
+      </div>
+      <mat-checkbox class="input" formControlName="active">Activo</mat-checkbox>
+      <mat-checkbox *ngIf="isCreate" class="input" formControlName="perishable">Perecedero</mat-checkbox>
+      <mat-checkbox *ngIf="isCreate" class="input" formControlName="batched" [disabled]="isPerishable()">Lotificado?</mat-checkbox>
+    </div>
+  </form>
+
+  <app-file-drop class="file-uploader" (selectedFiles)="getFiles($event)"></app-file-drop>
+  <mat-error class="error" *ngIf="error">Recuerda llenar todos los campos requeridos*</mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+  gap: 2rem;
+  padding: 4rem;
+  width: 75rem;
+  border-radius: 2rem;
+  color: $dark-blue;
+
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .text {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    @include flex-center-column;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+  }
+
+  .btn {
+    width: 50%;
+  }
+}

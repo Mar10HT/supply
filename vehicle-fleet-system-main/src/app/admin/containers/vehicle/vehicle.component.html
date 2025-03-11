@@ -1,0 +1,112 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+<div class="container">
+  <section class="panel">
+    <div class="car-info">
+      <img class="img" [src]="vehicle.Imagen_URL"/>
+      <div class="info-wrapper">
+        <p class="panel-title">{{ vehicleHelper.getModel(vehicle) }}</p>
+        <div class="info">
+          <span>
+            <p class="panel-label"> Kilometraje: <strong>{{vehicle.Kilometraje}} Km</strong></p>
+            <p class="panel-label"> Placa <strong>{{vehicle.Placa}}</strong></p>
+          </span>
+          <span>
+            <p class="panel-label">Tipo: <strong>{{ vehicleHelper.getType(vehicle) }}</strong></p>
+            <p class="panel-label">Estado: <strong>{{ vehicleHelper.getVehicleStatus(vehicle) }}</strong></p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-container">
+      <app-primary-button class="button" (btnClick)="printReport()">
+        REPORTE
+      </app-primary-button>
+      <app-primary-button class="button" (btnClick)="goToLogs()">
+        VER BITACORAS
+      </app-primary-button>
+      <app-primary-button class="button" (btnClick)="goToRequests()">
+        VER SOLICITUDES
+      </app-primary-button>
+    </div>
+  </section>
+  <section class="info-container">
+    <app-loading class="loading small-loading" *ngIf="loadingDate"></app-loading>
+    <div class="gas-container" *ngIf="!loadingDate">
+      <div class="first-row">
+        <span class="item">
+          <div>
+            <p>KPG</p>
+            <p class="panel-label">{{ currentMonth.kpg }}</p>
+          </div>
+          <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonth.kpg" *ngIf="currentMonthBigger('kpg')"></i>
+          <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonth.kpg" *ngIf="!currentMonthBigger('kpg')"></i>
+        </span>
+        <span class="item">
+          <div>
+            <p>CPK</p>
+            <p class="panel-label">L.{{ currentMonth.cpk }}</p>
+          </div>
+          <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: L.' + lastMonth.cpk" *ngIf="currentMonthBigger('cpk')"></i>
+          <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: L.' + lastMonth.cpk" *ngIf="!currentMonthBigger('cpk')"></i>
+        </span>
+        <span class="item">
+          <div>
+            <p>Precio</p>
+            <p class="panel-label">L.{{ currentMonth.cost }}</p>
+          </div>
+          <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: L.' + lastMonth.cost" *ngIf="currentMonthBigger('cost')"></i>
+          <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: L.' + lastMonth.cost" *ngIf="!currentMonthBigger('cost')"></i>
+        </span>
+        <span class="item">
+          <div >
+            <p>Distancia Recorrida</p>
+            <p class="panel-label">{{ currentMonth.kms }} KM</p>
+          </div>
+          <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonth.kms + ' Km'" *ngIf="currentMonthBigger('kms')"></i>
+          <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonth.kms  + ' Km'" *ngIf="!currentMonthBigger('kms')"></i>
+        </span>
+      </div>
+      <div class="second-row">
+        <div class="display">
+          <span class="item">
+            <div>
+              <p>Cantidad llenada</p>
+              <p class="panel-label">{{ currentMonth.gas }} Galon{{ currentMonth.gas > 1 ? 'es': ''}}</p>
+            </div>
+            <i class="uil uil-arrow-circle-up up" [matTooltip]="'Mes Pasado: ' + lastMonth.gas" *ngIf="currentMonthBigger('gas')"></i>
+            <i class="uil uil-arrow-circle-down down" [matTooltip]="'Mes Pasado: ' + lastMonth.gas" *ngIf="!currentMonthBigger('gas')"></i>
+          </span>
+          <span>
+            <p>Fecha Últ. Mantenimiento</p>
+            <p class="panel-label">{{ date }}</p>
+          </span>
+          <span>
+            <p>Restante para Mantenimiento</p>
+            <p class="panel-label">{{ maintenanceInfo.km }} KM</p>
+          </span>
+        </div>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            class="chart"
+            type="line"
+            [options]="options"
+            [labels]="history.months"
+            [datasets]="datasets"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+    <div #map class="map"></div>
+  </section>
+</div>
+<app-date-filter
+  *ngIf="!loading"
+  (dateRangeChanged)="filterDates($event)"
+  [mini]="true"
+  [startDate]="start"
+  [endDate]="end"
+  class="date-filter"
+>
+</app-date-filter>
+

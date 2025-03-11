@@ -1,0 +1,23 @@
+<div class="container">
+  <p class="title" *ngIf="isCreate">Crear Conductor</p>
+  <p class="title" *ngIf="!isCreate">Editar Conductor</p>
+  <form [formGroup]="driverForm" class="driver-form">
+    <mat-form-field class="field">
+      <mat-label class="label">Nombre</mat-label>
+      <input
+        matInput
+        required
+        class="input"
+        formControlName="name"
+        placeholder="Ingrese el nombre del conductor"
+      >
+    </mat-form-field>
+  </form>
+  <mat-error class="error" *ngIf="driverForm.controls.name.value === ''">
+    Por favor llenar los campos requeridos
+  </mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel(false)">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="card-wrapper" *ngIf="vehicle">
+  <div class="header" (click)="goToVehicle(vehicle.ID_Vehiculo)">
+   <img class="img" [src]="vehicle.Imagen_URL">
+    <div>
+      <p class="model">{{ model }}</p>
+      <p class="type">{{ vehicle.Modelo.Tipo_Vehiculo.Tipo_Vehiculo }} - {{ vehicle.Kilometraje }} Kms</p>
+    </div>
+  </div>
+  <div class="info" *ngIf="type === 'maintenance'">
+    <mat-calendar [dateClass]="maintenanceDateClass" class="calendar" [startAt]="lastMaintenanceDate"></mat-calendar>
+    <p class="text-label">Próximo mantenimiento en <strong>{{ remainingKms }} KMS</strong></p>
+  </div>
+  <div class="log-info" *ngIf="type === 'log'">
+    <mat-calendar [dateClass]="logDateClass" class="calendar" [startAt]="lastLogDate"></mat-calendar>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<app-loading *ngIf="loading" class="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title">{{ title }}</p>
+  <p class="label">¿Estás seguro que quieres realizar esta acción?</p>
+  <div class="buttons">
+    <app-primary-button class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onSubmit()">{{ label }}</app-primary-button>
+  </div>
+</div>

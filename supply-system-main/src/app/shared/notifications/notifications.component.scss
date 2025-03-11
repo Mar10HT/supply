@@ -1,0 +1,22 @@
+@import 'global';
+
+.container {
+  position: absolute;
+  margin-left: 15rem;
+}
+
+.loading-box, .empty-box {
+  z-index: 4;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 47rem;
+  height: 20rem;
+}
+
+.empty-box {
+  font-size: 3rem;
+  gap: 2rem;
+  font-weight: bold;
+}

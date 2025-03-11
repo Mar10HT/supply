@@ -1,0 +1,76 @@
+<app-loading *ngIf="loading" class="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title">Editar Solicitud</p>
+  <form [formGroup]="requestForm" class="driver-form">
+    <mat-form-field class="field">
+      <mat-label class="label">Vehículo</mat-label>
+      <input
+        matInput
+        required
+        class="input"
+        [matAutocomplete]="auto"
+        formControlName="vehicle"
+        placeholder="Ingrese el vehículo"
+      >
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (vehicle of filteredVehicles | async; track vehicle.ID_Vehiculo) {
+          <mat-option [value]="vehicleInfoHelper.getModel(vehicle)" (click)="selectVehicle(vehicle)">
+            {{ vehicleInfoHelper.getModel(vehicle) }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label class="label">Conductor</mat-label>
+      <input
+        matInput
+        required
+        class="input"
+        [matAutocomplete]="autoDriver"
+        formControlName="driver"
+        placeholder="Ingrese el conductor"
+      >
+      <mat-autocomplete #autoDriver="matAutocomplete">
+        @for (driver of filteredDrivers | async; track driver.ID_Conductor) {
+          <mat-option [value]="driver.Nombre" (click)="selectDriver(driver)">
+            {{ driver.Nombre }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>Pasajeros</mat-label>
+      <input
+        [matAutocomplete]="autoUsers"
+        matInput
+        type="text"
+        [placeholder]="display()"
+        formControlName="employees"
+      >
+      <mat-hint>Busque los empleados por nombre o número</mat-hint>
+    </mat-form-field>
+
+    <mat-autocomplete #autoUsers="matAutocomplete">
+      <mat-option *ngFor="let passenger of filteredEmployees | async" value="">
+          <mat-checkbox
+            [checked]="isPassengerSelected(passenger)"
+            (click)="toggleSelection(passenger)"
+          >
+            {{ passenger.Nombres }} {{ passenger.Apellidos }}
+          </mat-checkbox>
+      </mat-option>
+    </mat-autocomplete>
+  </form>
+  <mat-error class="error" *ngIf="error">
+    Por favor llenar los campos requeridos
+  </mat-error>
+  <mat-error class="error" *ngIf="emptyPassengers">
+    La lista de pasajeros no puede estar vacía
+  </mat-error>
+  <p *ngIf="showKms" class="kms-label">El vehículo tiene {{ nextMaintenance }} KM restantes antes de su siguiente mantenimiento</p>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>

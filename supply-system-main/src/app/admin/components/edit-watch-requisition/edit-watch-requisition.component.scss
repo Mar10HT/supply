@@ -1,0 +1,69 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+  gap: 2rem;
+  padding: 4rem;
+  width: 125rem;
+  border-radius: 2rem;
+  color: $dark-blue;
+
+  .error {
+    font-size: 2rem;
+  }
+
+  .card-container {
+    @include flex-center-column;
+    width: 22%;
+  }
+
+  .max {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    @include flex-center;
+    gap: 2rem;
+  }
+
+  .quantity {
+    width: 10rem;
+  }
+
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .text {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    @include flex-center-column;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+  }
+
+  .btn {
+    width: 50%;
+  }
+
+  .name {
+    max-width: 15rem;
+    overflow-y: auto;
+  }
+}
+
+.card-wrapper {
+  @include flex-center;
+  gap: 2rem;
+  width: 100%;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,50 @@
+<app-loading class="loading" *ngIf="loading"></app-loading>
+<div class="container" *ngIf="!loading">
+  <section class="panel">
+    <div class="search-bar-wrapper">
+      <i class="uil uil-search-alt"></i>
+      <input
+        [(ngModel)]="searchInput"
+        class="search-bar"
+        (input)="onSearch(searchInput)"
+        type="text"
+        placeholder="Buscar"
+      />
+    </div>
+    <div class="available">
+      <p class="panel-title">Esta semana se han usado</p>
+      <p class="panel-label"> {{ vehiclesCount }} Vehículo{{ vehiclesCount !== 1 ? 's' : '' }} </p>
+    </div>
+    <div class="available">
+      <p class="panel-title">Y se han recorrido</p>
+      <p class="panel-label"> {{ kms }} Km </p>
+    </div>
+    <div class="buttons">
+      <app-primary-button class="button" (btnClick)="createLog()">
+        INGRESAR BITACORA
+      </app-primary-button>
+      <mat-form-field class="button">
+        <mat-label>Filtro</mat-label>
+        <mat-select
+          [(ngModel)]="selectedFilter"
+          (selectionChange)="onFilterChange($event.value)"
+        >
+          @for (filter of filterOptions; track filter) {
+            <mat-option [value]="filter">{{ filter }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+  <section class="cards-container">
+    @for(vehicle of filteredVehicles; track vehicle.ID_Vehiculo) {
+      <app-vehicle-card
+        [vehicle]="vehicle"
+        class="pointer"
+      >
+      </app-vehicle-card>
+    } @empty {
+      <app-no-result></app-no-result>
+    }
+  </section>
+</div>

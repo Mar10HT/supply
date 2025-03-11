@@ -1,0 +1,87 @@
+<div class="container">
+  <form [formGroup]="logDataForm" class="log-form">
+    <mat-form-field class="create-field">
+      <mat-label class="label">Fecha</mat-label>
+      <input formControlName="Fecha" matInput [max]="maxDate" [matDatepicker]="picker" required>
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <mat-label class="label">Destino</mat-label>
+      <input
+        matInput
+        required
+        class="input"
+        formControlName="Destino"
+      >
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <input
+        matInput
+        required
+        readonly
+        placeholder="Hora Salida"
+        class="input pointer"
+        formControlName="Hora_Salida"
+        [ngxTimepicker]="timeIn"
+      >
+      <ngx-material-timepicker #timeIn></ngx-material-timepicker>
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <input
+        matInput
+        required
+        readonly
+        placeholder="Hora Entrada"
+        class="input"
+        formControlName="Hora_Entrada"
+        [ngxTimepicker]="timeOut"
+      >
+      <ngx-material-timepicker #timeOut></ngx-material-timepicker>
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <mat-label class="label">Kilometraje Salida</mat-label>
+      <input
+        matInput
+        required
+        [min]="this.lastData.lastKms"
+        type="number"
+        class="input"
+        formControlName="Kilometraje_Salida"
+      >
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <mat-label class="label">Kilometraje Entrada</mat-label>
+      <input
+        matInput
+        [min]="this.lastData.lastKms"
+        required
+        type="number"
+        class="input"
+        formControlName="Kilometraje_Entrada"
+      >
+    </mat-form-field>
+
+    <mat-form-field class="create-field">
+      <mat-label class="label">Observaciones</mat-label>
+      <input
+        matInput
+        class="input"
+        formControlName="Observaciones"
+      >
+    </mat-form-field>
+  </form>
+  <mat-error class="error" *ngIf="isLater">La hora de entrada no puede ser anterior a la de salida</mat-error>
+  <mat-error class="error" *ngIf="error">Llene todos los campos requeridos</mat-error>
+  <mat-error class="error" *ngIf="badKms">El kilometraje entrada debe ser mayor al de salida</mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Añadir</app-primary-button>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="card">
+  <p class="title">{{ product.name }}</p>
+  <section class="info-wrapper">
+    <img class="img" [src]="product.imageUrl"/>
+    <div class="info">
+      <p *ngIf="product.perishable">Vencimiento: {{ date }}</p>
+      <p *ngIf="product.perishable">{{ daysLeft }} día{{daysLeft > 1 ? 's': ''}} restante{{daysLeft > 1 ? 's': ''}}</p>
+      <p>{{ stock }} {{ product.unit }} restante{{stock > 1 ? 's': ''}}</p>
+    </div>
+  </section>
+</div>

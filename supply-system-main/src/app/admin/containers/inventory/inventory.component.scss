@@ -1,0 +1,22 @@
+@import 'global';
+
+.available {
+  flex-direction: row;
+
+  .panel-labels {
+    @include flex-center-column;
+  }
+
+  .panel-image {
+    margin-left: 1rem;
+    height: 10rem;
+  }
+}
+
+.uil-minus-circle {
+  color: $red;
+}
+
+.warning {
+  background-color: $product-warning;
+}

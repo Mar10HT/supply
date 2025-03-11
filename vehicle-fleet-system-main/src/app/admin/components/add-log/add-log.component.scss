@@ -1,0 +1,30 @@
+@import 'global';
+
+.container {
+  @include flex-center-column;
+
+  .log-form {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem;
+  }
+
+  .buttons {
+    @include flex-center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn {
+    width: 25rem;
+  }
+
+  .label, .input {
+    font-size: 2rem;
+  }
+
+  .error {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+}

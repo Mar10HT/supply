@@ -1,0 +1,134 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<div class="container" *ngIf="!loading">
+  <p class="title" *ngIf="isCreate">Crear Vehículo</p>
+  <p class="title" *ngIf="!isCreate">Editar Vehículo</p>
+
+  <form [formGroup]="vehicleForm" class="vehicle-form">
+    <div class="form-half">
+      <mat-form-field class="field">
+        <mat-label class="label">Placa</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="plate"
+          placeholder="Ingrese la placa del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Kilometraje</mat-label>
+        <input
+          matInput
+          type="number"
+          required
+          class="input"
+          formControlName="kms"
+          placeholder="Ingrese el kilometraje del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Chasis</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="chasis"
+          placeholder="Ingrese el chasis del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Motor</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="motor"
+          placeholder="Ingrese el motor del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Marca</mat-label>
+        <mat-select formControlName="brand">
+          <mat-option
+            *ngFor="let brand of brands"
+            [value]="brand.ID_Marca_Vehiculo"
+            (click)="filterModels(brand.ID_Marca_Vehiculo)"
+          >
+            {{ brand.Marca }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="add" *ngIf="isCreate" (click)="openModal('brand')">
+        <i class="uil uil-plus-circle"></i>
+        <p class="label">Agregar Marca</p>
+      </div>
+    </div>
+    <div class="form-half">
+      <mat-form-field class="field">
+        <mat-label class="label">KPG</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          class="input"
+          formControlName="kpg"
+          placeholder="Ingrese el rendimiento del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option
+            *ngFor="let status of statuses"
+            [value]="status.ID_Estado_Vehiculo"
+            [disabled]="status.Estado_Vehiculo === 'En Uso'"
+          >
+            {{ status.Estado_Vehiculo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Año</mat-label>
+        <input
+          matInput
+          type="number"
+          [max]="currentYear"
+          required
+          class="input"
+          formControlName="year"
+          placeholder="Ingrese el año del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Color</mat-label>
+        <input
+          matInput
+          required
+          class="input"
+          formControlName="color"
+          placeholder="Ingrese el color del vehículo"
+        >
+      </mat-form-field>
+      <mat-form-field class="field">
+        <mat-label class="label">Modelo</mat-label>
+        <mat-select formControlName="model">
+          <mat-option (click)="setType(model)" *ngFor="let model of filteredModels" [value]="model.ID_Modelo">
+            {{ model.Modelo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="add" *ngIf="isCreate" (click)="openModal('model')">
+        <i class="uil uil-plus-circle"></i>
+        <p class="label">Agregar Modelo</p>
+      </div>
+    </div>
+  </form>
+  <app-file-drop class="file-uploader" (selectedFiles)="getFiles($event)"></app-file-drop>
+  <mat-error class="error" *ngIf="error">Recuerda llenar todos los campos requeridos*</mat-error>
+  <mat-error class="error" *ngIf="fileError">Recuerda adjuntar la imagen del vehículo*</mat-error>
+  <div class="buttons">
+    <app-primary-button styleClass="btn-red" class="btn" (btnClick)="onCancel()">Cancelar</app-primary-button>
+    <app-primary-button class="btn" (btnClick)="onSubmit()">Confirmar</app-primary-button>
+  </div>
+</div>
